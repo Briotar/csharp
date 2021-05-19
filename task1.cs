@@ -14,16 +14,16 @@ namespace collection
             words.Add("word", 2);
             words.Add("world", 3);
 
-            Console.Write("Введите слово - ");
+            Console.Write("Enter word - ");
             userInput = Console.ReadLine();
 
             if (words.ContainsKey(userInput))
             {
-                Console.WriteLine("Значение слова - " + words[userInput]);
+                Console.WriteLine("Value - " + words[userInput]);
             }
             else
             {
-                Console.WriteLine("Такого слова нет!");
+                Console.WriteLine("Еhere is no such word!");
             }
 
         }
