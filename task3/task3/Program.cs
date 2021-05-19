@@ -12,7 +12,7 @@ namespace task3
             int newNumber;
             int sum = 0;
 
-            while (true)
+            while (userInput != "exit")
             {
                 Console.Write("Enter number - ");
                 userInput = Console.ReadLine();
@@ -24,10 +24,6 @@ namespace task3
                         sum += numbers[i];
                     }
                     Console.WriteLine($"Sum - {sum}");
-                }
-                else if(userInput == "exit")
-                {
-                    break;
                 }
                 else
                 {
@@ -42,17 +38,14 @@ namespace task3
             int number = 0;
             bool successfulConvert = false;
 
-            while (successfulConvert == false)
+            successfulConvert = Int32.TryParse(userInput, out number);
+            if (successfulConvert)
             {
-                successfulConvert = Int32.TryParse(userInput, out number);
-                if (successfulConvert)
-                {
-                    return number;
-                }
-                else
-                {
-                    Console.WriteLine("It's not a number!");
-                }
+                return number;
+            }
+            else
+            {
+                Console.WriteLine("It's not a number!");
             }
             return 0;
         }
