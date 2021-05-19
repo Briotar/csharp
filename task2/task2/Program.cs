@@ -25,7 +25,6 @@ namespace task2
                 Console.ReadKey();
                 Console.Clear();
             }
-
         }
     }
 }
