@@ -19,8 +19,7 @@ namespace task2
 
             while (purchaseAmount.Count != 0)
             {
-                sum += purchaseAmount.Peek();
-                purchaseAmount.Dequeue();
+                sum += purchaseAmount.Dequeue();
                 Console.WriteLine($"Your account = {sum}");
                 Console.ReadKey();
                 Console.Clear();
