@@ -19,13 +19,13 @@ namespace task4
                 switch(userInput)
                 {
                     case 1:
-                        AddDossier(ref dossier);            
+                        AddDossier(dossier);            
                         break;
                     case 2:
                         PrintDossier(dossier);
                         break;
                     case 3:
-                        DeleteDossier(ref dossier);
+                        DeleteDossier(dossier);
                         break;
                     case 4:
                         isMenu = false;
@@ -34,7 +34,7 @@ namespace task4
             }
         }
 
-        static void AddDossier(ref List<string[]> dossier)
+        static void AddDossier(List<string[]> dossier)
         {
             string[] addToList = new string[2]; 
 
@@ -50,12 +50,12 @@ namespace task4
         {
             for (int i = 0; i < dossier.Count; i++)
             {
-                Console.Write($"-{i+1} {dossier[i][0]} {dossier[i][0]} ");
+                Console.Write($"-{i+1} {dossier[i][0]} {dossier[i][1]} ");
             }
             Console.WriteLine();
         }
 
-        static void DeleteDossier(ref List<string[]> dossier)
+        static void DeleteDossier(List<string[]> dossier)
         {
             int userInput;
 
