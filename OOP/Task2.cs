@@ -9,21 +9,22 @@ namespace OOP2
             Player player1 = new Player(5, 5);
             Render render = new Render();
 
-            render.DrawPlayer(player1.X, player1.Y); 
+            render.DrawPlayer(player1.positionX, player1.positionY); 
            
         }
     }
 
     class Player
     {
+        public int positionX { get; private set; }
+        public int positionY { get; private set; }
+        
         public Player(int x, int y)
         {
-            X = x;
-            Y = y;
+            positionX = x;
+            positionY = y;
         }
 
-        public int X { get; private set; }
-        public int Y { get; private set; }
     }
 
     class Render
