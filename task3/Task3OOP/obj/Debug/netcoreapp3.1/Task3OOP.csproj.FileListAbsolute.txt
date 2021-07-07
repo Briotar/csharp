@@ -1,0 +1,13 @@
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\bin\Debug\netcoreapp3.1\Task3OOP.exe
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\bin\Debug\netcoreapp3.1\Task3OOP.deps.json
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\bin\Debug\netcoreapp3.1\Task3OOP.runtimeconfig.json
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\bin\Debug\netcoreapp3.1\Task3OOP.runtimeconfig.dev.json
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\bin\Debug\netcoreapp3.1\Task3OOP.dll
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\bin\Debug\netcoreapp3.1\Task3OOP.pdb
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.AssemblyInfoInputs.cache
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.AssemblyInfo.cs
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.csproj.CoreCompileInputs.cache
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.dll
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.pdb
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.genruntimeconfig.cache
+C:\Users\warpl\Desktop\c#\Task3OOP\Task3OOP\obj\Debug\netcoreapp3.1\Task3OOP.csprojAssemblyReference.cache
