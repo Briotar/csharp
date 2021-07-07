@@ -5,7 +5,7 @@ namespace Task3OOP
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Database database = new Database();
             bool isWork = true;
