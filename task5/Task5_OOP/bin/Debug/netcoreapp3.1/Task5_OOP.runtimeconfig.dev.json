@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\warpl\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\warpl\\.nuget\\packages"
+    ]
+  }
+}

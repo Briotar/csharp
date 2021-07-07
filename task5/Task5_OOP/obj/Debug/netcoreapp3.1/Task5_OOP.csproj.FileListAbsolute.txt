@@ -1,0 +1,13 @@
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\bin\Debug\netcoreapp3.1\Task5_OOP.exe
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\bin\Debug\netcoreapp3.1\Task5_OOP.deps.json
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\bin\Debug\netcoreapp3.1\Task5_OOP.runtimeconfig.json
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\bin\Debug\netcoreapp3.1\Task5_OOP.runtimeconfig.dev.json
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\bin\Debug\netcoreapp3.1\Task5_OOP.dll
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\bin\Debug\netcoreapp3.1\Task5_OOP.pdb
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.csprojAssemblyReference.cache
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.AssemblyInfoInputs.cache
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.AssemblyInfo.cs
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.csproj.CoreCompileInputs.cache
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.dll
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.pdb
+C:\Users\warpl\Desktop\c#\Task5_OOP\Task5_OOP\obj\Debug\netcoreapp3.1\Task5_OOP.genruntimeconfig.cache
