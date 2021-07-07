@@ -8,7 +8,6 @@ namespace Task3OOP
         static void Main(string[] args)
         {
             Database database = new Database();
-            Random rand = new Random();
             bool isWork = true;
             int userInput;
             string nickname;
@@ -27,7 +26,7 @@ namespace Task3OOP
                         Console.Write("Enter nickname - ");
                         nickname = Console.ReadLine();
 
-                        database.AddNewPlayer(nickname, rand);
+                        database.AddNewPlayer(nickname);
                         ShowDatabase(database);
                         break;
 
@@ -79,18 +78,20 @@ namespace Task3OOP
 
     class Player
     {
-        private static int _ids;
+        private static int _listIds;
+        private static Random random;
         private string _nickname;
         private int _level;
 
         public bool IsBaned { get; private set; }
         public int Id { get; private set; }
 
-        public Player(string nickname, Random rand)
+        public Player(string nickname)
         {
-            Id = ++_ids;
+            random = new Random();
+            Id = ++_listIds;
             _nickname = nickname;
-            _level = rand.Next(1,10);
+            _level = random.Next(1,10);
             IsBaned = false;
         }
 
@@ -120,11 +121,16 @@ namespace Task3OOP
 
     class Database
     {
-        private List<Player> _players = new List<Player>();
+        private List<Player> _players;
 
-        public void AddNewPlayer(string nickname, Random rand)
+        public Database()
         {
-            _players.Add(new Player(nickname, rand));
+            _players = new List<Player>();
+        }
+
+        public void AddNewPlayer(string nickname)
+        {
+            _players.Add(new Player(nickname));
         }
 
         public void ShowInfo()
@@ -155,25 +161,23 @@ namespace Task3OOP
 
         public void ChangeStatus(int numberPlayer)
         {
-            int playerBanI;
-            playerBanI = SearchPlayerI(numberPlayer);
+            int playerIndex = SearchPlayerI(numberPlayer);
 
-            if(_players[playerBanI].IsBaned == false)
+            if(_players[playerIndex].IsBaned == false)
             {
-                _players[playerBanI].Ban();
+                _players[playerIndex].Ban();
             }
             else
             {
-                _players[playerBanI].Unban();
+                _players[playerIndex].Unban();
             }
         }
 
         public void DeletePlayer(int numberPlayer)
         {
-            int playerRemoveI;
-            playerRemoveI = SearchPlayerI(numberPlayer);
+            int playerIndex = SearchPlayerI(numberPlayer);
 
-            _players.RemoveAt(playerRemoveI);
+            _players.RemoveAt(playerIndex);
         }
     }
 }
