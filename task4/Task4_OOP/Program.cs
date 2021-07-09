@@ -35,9 +35,8 @@ namespace Task4_OOP
 
                         moneyToPay = shop.GetCost(numberProduct);
 
-                        if (seller.SaleGoods(player.Money, moneyToPay))
+                        if (seller.SaleGoods(player, moneyToPay))
                         {
-                            player.DecreaseMoney(moneyToPay);
                             productToPlayer = shop.TransferProduct(numberProduct);
                             player.AddToList(productToPlayer);
                             shop.TakeMoney(moneyToPay);
@@ -158,18 +157,19 @@ namespace Task4_OOP
 
     class Seller
     {
-        public bool SaleGoods(int playerMoney, int moneyToPay)
+        public bool SaleGoods(Player player, int moneyToPay)
         {
             bool isSuccesful;
 
-            if (moneyToPay > playerMoney)
+            if (moneyToPay > player.Money)
             {
                 Console.WriteLine("You dont have enough money");
                 isSuccesful = false;
             }
             else
             {
-                Console.WriteLine($"Your money now - {playerMoney}");
+                player.DecreaseMoney(moneyToPay);
+                Console.WriteLine($"Your money now - {player.Money}");
                 isSuccesful = true;
             }
 
