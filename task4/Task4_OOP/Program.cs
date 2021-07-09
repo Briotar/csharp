@@ -34,9 +34,9 @@ namespace Task4_OOP
 
                         moneyToPay = shop.GetCost(numberProduct);
 
-                        if (player.TakeMoney(moneyToPay))
+                        if (player.TryGiveMoney(moneyToPay))
                         {
-                            productToPlayer = shop.DeleteProduct(numberProduct);
+                            productToPlayer = shop.TransferProduct(numberProduct);
                             player.AddToList(productToPlayer);
                             shop.TakeMoney(moneyToPay);
                         }
@@ -62,11 +62,12 @@ namespace Task4_OOP
     class Player
     {
         private int _money;
-        private List<Product> _inventory = new List<Product>();
+        private List<Product> _inventory;
 
         public Player(int money)
         {
             _money = money;
+            _inventory = new List<Product>();
         }
 
         public void ShowInfo()
@@ -78,7 +79,7 @@ namespace Task4_OOP
             }
         }
 
-        public bool TakeMoney(int moneyToPay)
+        public bool TryGiveMoney(int moneyToPay)
         {
             bool isSuccesful;
 
@@ -124,10 +125,11 @@ namespace Task4_OOP
     class Shop
     {
         private int _money;
-        private List<Product> _products = new List<Product>();
+        private List<Product> _products;
 
         public Shop()
         {
+            _products = new List<Product>();
             _money = 0;
             _products.Add(new Product(100, "Melon"));
             _products.Add(new Product(8, "Berry"));
@@ -146,7 +148,7 @@ namespace Task4_OOP
             }
         }
 
-        public Product DeleteProduct(int numberProduct)
+        public Product TransferProduct(int numberProduct)
         {
             Product productToPlayer = _products[numberProduct];
             _products.RemoveAt(numberProduct);
