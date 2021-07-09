@@ -7,92 +7,60 @@ namespace Task5_OOP
     {
         static void Main(string[] args)
         {
-            List<Direction> directions = new List<Direction>();
-            Train train = new Train();
-            RailwayCarriageLarge railwayCarriageLarge = new RailwayCarriageLarge();
-            RailwayCarriageMedium railwayCarriageMedium = new RailwayCarriageMedium();
-            Random random = new Random();
-            string newDirection;
-            int numberPassengers;
+            Trip trip = new Trip();
+            bool isWork = true;
+            string userInput;
 
-            while(true)
+            while(isWork)
             {
-                Console.SetCursorPosition(0, 10);
-                Console.Write("Enter new direction - ");
-                newDirection = Console.ReadLine();
-                directions.Add(new Direction(newDirection));
+                trip.DepartureTrip();
 
-                UpdateInfo(train);
+                Console.SetCursorPosition(0, 16);
+                Console.Write("Enter 1 to exit or any other symbol to continue - ");
+                userInput = Console.ReadLine();
 
-                Console.SetCursorPosition(0, 12);
-                Console.WriteLine("Sell tickets ? Press ane button.");
-                Console.ReadKey();
-                numberPassengers = random.Next(80, 460);
-                Console.WriteLine($"Passengers on direction - {numberPassengers}\n");
-
-                while (numberPassengers > 0)
+                if (userInput == "1")
                 {
-                    if (numberPassengers / railwayCarriageLarge.Capacity >= 1)
-                    {
-                        train.AddLarge();
-                        numberPassengers -= railwayCarriageLarge.Capacity;
-                    }
-                    else
-                    {
-                        train.AddMedium();
-                        numberPassengers -= railwayCarriageMedium.Capacity;
-                    }
+                    isWork = false;
                 }
 
-                UpdateInfo(train);
-                train.ClearList();
-
-                Console.WriteLine("Train leaves...\n\n");
-                Console.ReadKey();
                 Console.Clear();
-            }
-        }
-
-        static void UpdateInfo(Train train)
-        {
-            Console.SetCursorPosition(0,0);
-
-            if (train.CheckExist())
-            {
-                train.ShowInfo();
-            }
-            else
-            {
-                Console.WriteLine("Train not exist!");
             }
         }
     }
 
     class Direction
     {
-        private string _name;
+        private string _from;
+        private string _to;
 
-        public Direction(string name)
+        public Direction(string from, string to)
         {
-            _name = name;
+            _from = from;
+            _to = to;
         }
 
         public void ShowInfo(int i)
         {
-            Console.WriteLine($"{i+1}) direction - {_name}");
+            Console.WriteLine($"{i+1}) direction - {_from}-{_to}");
         }
     }
 
     class Train
     {
-        private List<RailwayCarriage> _railwayCarriages = new List<RailwayCarriage>();
+        private List<RailwayCarriage> _railwayCarriages;
 
-        public void AddLarge()
+        public Train()
+        {
+            _railwayCarriages = new List<RailwayCarriage>();
+        }
+
+        public void AddLargeCarriage()
         {
             _railwayCarriages.Add(new RailwayCarriageLarge());
         }
 
-        public void AddMedium()
+        public void AddMediumCarriage()
         {
             _railwayCarriages.Add(new RailwayCarriageMedium());
         }
@@ -104,7 +72,7 @@ namespace Task5_OOP
 
             for (int i = 0; i < _railwayCarriages.Count; i ++)
             {
-                if(_railwayCarriages[i].Capacity == 100)
+                if(_railwayCarriages[i] is RailwayCarriageLarge)
                 {
                     countRailwayCarriageLarge++;
                 }
@@ -153,6 +121,76 @@ namespace Task5_OOP
         public RailwayCarriageLarge()
         {
             Capacity = 100;
+        }
+    }
+
+    class Trip
+    {
+        private int _numberPassengers;
+        private static Random _random;
+
+        public Trip()
+        {
+            _random = new Random();
+        }
+
+        public void DepartureTrip()
+        {
+            List<Direction> directions = new List<Direction>();
+            Train train = new Train();
+            RailwayCarriageLarge railwayCarriageLarge = new RailwayCarriageLarge();
+            RailwayCarriageMedium railwayCarriageMedium = new RailwayCarriageMedium();
+            string directionFrom;
+            string directionTo;
+
+            Console.SetCursorPosition(0, 10);
+            Console.Write("Where does the train go - ");
+            directionTo = Console.ReadLine();
+            Console.Write("where the train departs from - ");
+            directionFrom = Console.ReadLine();
+
+            directions.Add(new Direction(directionFrom, directionTo));
+
+            UpdateInfo(train);
+
+            Console.SetCursorPosition(0, 12);
+            Console.WriteLine("Sell tickets ? Press ane button.");
+            Console.ReadKey();
+            _numberPassengers = _random.Next(80, 460);
+            Console.WriteLine($"Passengers on direction - {_numberPassengers}\n");
+
+            while (_numberPassengers > 0)
+            {
+                if (_numberPassengers / railwayCarriageLarge.Capacity >= 1)
+                {
+                    train.AddLargeCarriage();
+                    _numberPassengers -= railwayCarriageLarge.Capacity;
+                }
+                else
+                {
+                    train.AddMediumCarriage();
+                    _numberPassengers -= railwayCarriageMedium.Capacity;
+                }
+            }
+
+            UpdateInfo(train);
+            train.ClearList();
+
+            Console.WriteLine("Train leaves...\n\n");
+        }
+
+        private void UpdateInfo(Train train)
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (train.CheckExist())
+            {
+                train.ShowInfo();
+            }
+            else
+            {
+                Console.WriteLine("Train not exist!");
+            }
         }
     }
 }
