@@ -10,6 +10,7 @@ namespace Task4_OOP
             Shop shop = new Shop();
             Player player = new Player(500);
             Product productToPlayer;
+            Seller seller = new Seller();
             bool isWork = true;
             int userInput;
             int numberProduct;
@@ -34,8 +35,9 @@ namespace Task4_OOP
 
                         moneyToPay = shop.GetCost(numberProduct);
 
-                        if (player.TryGiveMoney(moneyToPay))
+                        if (seller.SaleGoods(player.Money, moneyToPay))
                         {
+                            player.DecreaseMoney(moneyToPay);
                             productToPlayer = shop.TransferProduct(numberProduct);
                             player.AddToList(productToPlayer);
                             shop.TakeMoney(moneyToPay);
@@ -61,12 +63,13 @@ namespace Task4_OOP
 
     class Player
     {
-        private int _money;
         private List<Product> _inventory;
+
+        public int Money { get; private set; }
 
         public Player(int money)
         {
-            _money = money;
+            Money = money;
             _inventory = new List<Product>();
         }
 
@@ -79,23 +82,9 @@ namespace Task4_OOP
             }
         }
 
-        public bool TryGiveMoney(int moneyToPay)
+        public void DecreaseMoney(int moneyToPay)
         {
-            bool isSuccesful;
-
-            if(moneyToPay > _money)
-            {
-                Console.WriteLine("You dont have enough money");
-                isSuccesful = false;
-            }
-            else
-            {
-                _money -= moneyToPay;
-                Console.WriteLine($"Your money now - {_money}");
-                isSuccesful = true;
-            }
-
-            return isSuccesful;
+            Money -= moneyToPay;
         }
 
         public void AddToList(Product product)
@@ -164,6 +153,27 @@ namespace Task4_OOP
         public int GetCost(int numberProduct)
         {
             return _products[numberProduct].Price;
+        }
+    }
+
+    class Seller
+    {
+        public bool SaleGoods(int playerMoney, int moneyToPay)
+        {
+            bool isSuccesful;
+
+            if (moneyToPay > playerMoney)
+            {
+                Console.WriteLine("You dont have enough money");
+                isSuccesful = false;
+            }
+            else
+            {
+                Console.WriteLine($"Your money now - {playerMoney}");
+                isSuccesful = true;
+            }
+
+            return isSuccesful;
         }
     }
 }
