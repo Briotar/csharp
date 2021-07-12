@@ -39,8 +39,8 @@ namespace Task6_OOP
             {
                 Console.WriteLine("Opponents attack each other");
 
-                fighters[firstFighter].UniqueAttack(fighters[secondFighter]);
-                fighters[secondFighter].UniqueAttack(fighters[firstFighter]);
+                fighters[firstFighter].Attack(fighters[secondFighter]);
+                fighters[secondFighter].Attack(fighters[firstFighter]);
 
                 fighters[firstFighter].ShowHealth();
                 fighters[secondFighter].ShowHealth();
@@ -69,24 +69,24 @@ namespace Task6_OOP
 
 abstract class Fighter
 {
-    protected int _mana;
-    protected int _armor;
-    protected int _damage;
+    protected int mana;
+    protected int armor;
+    protected int damage;
 
     public int Health { get; protected set; }
     public string Name { get; protected set; }
 
-    public abstract void UniqueAttack(Fighter enemy);
+    public abstract void Attack(Fighter enemy);
 
     public void TakeDamage(int damage)
     {
-        Health -= damage - _armor;
+        Health -= damage - armor;
     }
 
     public void ShowStats()
     {
-        Console.WriteLine($"Name - {Name}, health - {Health}, mana - {_mana}," +
-            $" armor - {_armor}, damage - {_damage}");
+        Console.WriteLine($"Name - {Name}, health - {Health}, mana - {mana}," +
+            $" armor - {armor}, damage - {damage}");
     }
 
     public void ShowHealth()
@@ -101,14 +101,14 @@ class Warrior : Fighter
     {
         Name = "warrior";
         Health = 250;
-        _mana = 0;
-        _armor = 10;
-        _damage = 50;
+        mana = 0;
+        armor = 10;
+        damage = 50;
     }
 
-    public override void UniqueAttack(Fighter enemy)
+    public override void Attack(Fighter enemy)
     {
-        enemy.TakeDamage(_damage);
+        enemy.TakeDamage(damage);
     }
 }
 
@@ -118,23 +118,23 @@ class Mage : Fighter
     {
         Name = "mage";
         Health = 100;
-        _mana = 20;
-        _armor = 3;
-        _damage = 70;
+        mana = 20;
+        armor = 3;
+        damage = 70;
     }
 
-    public override void UniqueAttack(Fighter enemy)
+    public override void Attack(Fighter enemy)
     {
         int totalDamage = 0;
 
-        if (_mana >= 10)
+        if (mana >= 10)
         {
-            totalDamage = _damage + _mana;
-            _mana -= 10;
+            totalDamage = damage + mana;
+            mana -= 10;
         }
         else
         {
-            totalDamage = _damage;
+            totalDamage = damage;
         }
 
         enemy.TakeDamage(totalDamage);
@@ -147,22 +147,22 @@ class Thief : Fighter
     {
         Name = "thief";
         Health = 150;
-        _mana = 10;
-        _armor = 4;
-        _damage = 60;
+        mana = 10;
+        armor = 4;
+        damage = 60;
     }
 
-    public override void UniqueAttack(Fighter enemy)
+    public override void Attack(Fighter enemy)
     {
         int totalDamage = 0;
 
         if(enemy.Health < 100)
         {
-            totalDamage = _damage * 2;
+            totalDamage = damage * 2;
         }
         else
         {
-            totalDamage = _damage;
+            totalDamage = damage;
         }
 
         enemy.TakeDamage(totalDamage);
@@ -175,15 +175,15 @@ class Imba : Fighter
     {
         Name = "imba";
         Health = 999;
-        _mana = 999;
-        _armor = 20;
-        _damage = 999;
+        mana = 999;
+        armor = 20;
+        damage = 999;
     }
 
-    public override void UniqueAttack(Fighter enemy)
+    public override void Attack(Fighter enemy)
     {
-        int totalDamage = _damage + _mana;
-        _mana += 999;
+        int totalDamage = damage + mana;
+        mana += 999;
         enemy.TakeDamage(totalDamage);
     }
 }
@@ -194,15 +194,15 @@ class Weakest : Fighter
     {
         Name = "weakest";
         Health = 10;
-        _mana = 0;
-        _armor = 0;
-        _damage = 5;
+        mana = 0;
+        armor = 0;
+        damage = 5;
     }
 
-    public override void UniqueAttack(Fighter enemy)
+    public override void Attack(Fighter enemy)
     {
-        _damage++;
-        enemy.TakeDamage(_damage);
+        damage++;
+        enemy.TakeDamage(damage);
     }
 }
 
