@@ -29,9 +29,9 @@ namespace Task6_OOP
             }
 
             Console.Write("Choose first fighter: ");
-            firstFighter = Convert.ToInt32(Console.ReadLine()) - 1;
+            firstFighter = GetFighterNumber();
             Console.Write("Choose second fighter: ");
-            secondFighter = Convert.ToInt32(Console.ReadLine()) - 1;
+            secondFighter = GetFighterNumber();
 
             Console.WriteLine("\nStart!");
 
@@ -63,6 +63,25 @@ namespace Task6_OOP
             }
 
             Console.ReadKey();
+        }
+
+        static int GetFighterNumber()
+        {
+            string fighterNumber;
+            int fighterNumberInt;
+
+            fighterNumber = Console.ReadLine();
+            Int32.TryParse(fighterNumber, out fighterNumberInt);
+
+            if (fighterNumberInt > 5 || fighterNumberInt < 1)
+            {
+                Console.WriteLine("Enter number 1-5! Вefault selection - 1");
+                return 0;
+            }
+            else
+            {
+                return fighterNumberInt - 1;
+            }
         }
     }
 }
