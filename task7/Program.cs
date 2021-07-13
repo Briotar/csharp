@@ -12,7 +12,7 @@ namespace Task7_OOP
             int lenghtQueue;
 
             Console.Write("Enter number of people in queue - ");
-            lenghtQueue = Convert.ToInt32(Console.ReadLine());
+            lenghtQueue = GetLenghtQueue();
 
             for (int i = 0; i < lenghtQueue; i++)
             {
@@ -30,6 +30,26 @@ namespace Task7_OOP
                 human.ShowBasket();
 
                 human.TryPay(human);
+            }
+        }
+
+        static int GetLenghtQueue()
+        {
+            string lenghtQueue;
+            int lenghtQueueInt;
+            bool successfulConvert;
+
+            lenghtQueue = Console.ReadLine();
+            successfulConvert = Int32.TryParse(lenghtQueue, out lenghtQueueInt);
+
+            if (successfulConvert)
+            {
+                return lenghtQueueInt;
+            }
+            else
+            {
+                Console.WriteLine("Enter a number! Default number - 3");
+                return 3;
             }
         }
     }
