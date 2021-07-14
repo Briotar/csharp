@@ -148,7 +148,18 @@ namespace Task8_OOP
             for (int i = 0; i < troopEnemy.Solders.Count; i++)
             {
                 Console.WriteLine("Machinegunner attack!");
+                DoubleAttack(troopEnemy, i);
                 troopEnemy.Solders[i].TakeDamage(damage, accuracy);
+            }
+        }
+
+        private void DoubleAttack(Troop troopEnemy, int solderIndex)
+        {
+            int shoot = random.Next(1, 3);
+
+            if(shoot == 1)
+            {
+                troopEnemy.Solders[solderIndex].TakeDamage(damage, accuracy);
             }
         }
     }
@@ -162,7 +173,20 @@ namespace Task8_OOP
         {
             Console.WriteLine("Shooter attack!");
             int targetAttack = random.Next(0, troopEnemy.Solders.Count);
+            AccurateShot(troopEnemy, targetAttack);
             troopEnemy.Solders[targetAttack].TakeDamage(damage, accuracy);
+        }
+
+        private void AccurateShot(Troop troopEnemy, int solderIndex)
+        {
+            int shoot = random.Next(1, 2);
+            int accurancy = 100;
+            int increasedDamage = damage + 15;
+
+            if (shoot == 1)
+            {
+                troopEnemy.Solders[solderIndex].TakeDamage(increasedDamage, accurancy);
+            }
         }
     }
 }
