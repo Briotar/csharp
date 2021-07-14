@@ -8,11 +8,11 @@ namespace Task6_OOP
         static void Main(string[] args)
         {
             List<Fighter> fighters = new List<Fighter>();
-            Warrior warrior = new Warrior();
-            Mage mage = new Mage();
-            Thief thief = new Thief();
-            Imba imba = new Imba();
-            Weakest weakest = new Weakest();
+            Warrior warrior = new Warrior("warrior", 250, 0, 10, 50);
+            Mage mage = new Mage("mage", 100, 20, 3, 70);
+            Thief thief = new Thief("thief", 150, 10, 4, 60);
+            Imba imba = new Imba("imba", 999, 999, 20, 999);
+            Weakest weakest = new Weakest("weakest", 10, 0, 0, 5);
             int firstFighter;
             int secondFighter;
 
@@ -29,9 +29,9 @@ namespace Task6_OOP
             }
 
             Console.Write("Choose first fighter: ");
-            firstFighter = GetFighterNumber();
+            firstFighter = GetFighterNumber(fighters);
             Console.Write("Choose second fighter: ");
-            secondFighter = GetFighterNumber();
+            secondFighter = GetFighterNumber(fighters);
 
             Console.WriteLine("\nStart!");
 
@@ -65,22 +65,31 @@ namespace Task6_OOP
             Console.ReadKey();
         }
 
-        static int GetFighterNumber()
+        static int GetFighterNumber(List<Fighter> fighters)
         {
             string fighterNumber;
             int fighterNumberInt;
+            bool isConverted;
 
             fighterNumber = Console.ReadLine();
-            Int32.TryParse(fighterNumber, out fighterNumberInt);
+            isConverted = Int32.TryParse(fighterNumber, out fighterNumberInt);
 
-            if (fighterNumberInt > 5 || fighterNumberInt < 1)
+            if(isConverted)
             {
-                Console.WriteLine("Enter number 1-5! Вefault selection - 1");
-                return 0;
+                if (fighterNumberInt > fighters.Count || fighterNumberInt < 1)
+                {
+                    Console.WriteLine($"Enter number 1-{fighters.Count}! Вefault selection - 1");
+                    return 0;
+                }
+                else
+                {
+                    return fighterNumberInt - 1;
+                }
             }
             else
             {
-                return fighterNumberInt - 1;
+                Console.WriteLine("Enter number 1-5! Вefault selection - 1");
+                return 0;
             }
         }
     }
@@ -94,6 +103,15 @@ abstract class Fighter
 
     public int Health { get; protected set; }
     public string Name { get; protected set; }
+
+    public Fighter(string name, int health, int setMana, int setArmor, int setDamage)
+    {
+        Name = name;
+        Health = health;
+        mana = setMana;
+        armor = setArmor;
+        damage = setDamage;
+    }
 
     public abstract void Attack(Fighter enemy);
 
@@ -116,14 +134,9 @@ abstract class Fighter
 
 class Warrior : Fighter
 {
-    public Warrior()
-    {
-        Name = "warrior";
-        Health = 250;
-        mana = 0;
-        armor = 10;
-        damage = 50;
-    }
+    public Warrior(string name, int health, int setMana, int setArmor, int setDamage)
+        : base(name, health, setMana, setArmor, setDamage) { }
+
 
     public override void Attack(Fighter enemy)
     {
@@ -133,14 +146,8 @@ class Warrior : Fighter
 
 class Mage : Fighter
 {
-    public Mage()
-    {
-        Name = "mage";
-        Health = 100;
-        mana = 20;
-        armor = 3;
-        damage = 70;
-    }
+    public Mage(string name, int health, int setMana, int setArmor, int setDamage)
+        : base(name, health, setMana, setArmor, setDamage) { }
 
     public override void Attack(Fighter enemy)
     {
@@ -162,14 +169,8 @@ class Mage : Fighter
 
 class Thief : Fighter
 {
-    public Thief()
-    {
-        Name = "thief";
-        Health = 150;
-        mana = 10;
-        armor = 4;
-        damage = 60;
-    }
+    public Thief(string name, int health, int setMana, int setArmor, int setDamage)
+        : base(name, health, setMana, setArmor, setDamage) { }
 
     public override void Attack(Fighter enemy)
     {
@@ -190,14 +191,8 @@ class Thief : Fighter
 
 class Imba : Fighter
 {
-    public Imba()
-    {
-        Name = "imba";
-        Health = 999;
-        mana = 999;
-        armor = 20;
-        damage = 999;
-    }
+    public Imba(string name, int health, int setMana, int setArmor, int setDamage)
+        : base(name, health, setMana, setArmor, setDamage) { }
 
     public override void Attack(Fighter enemy)
     {
@@ -209,14 +204,8 @@ class Imba : Fighter
 
 class Weakest : Fighter
 {
-    public Weakest()
-    {
-        Name = "weakest";
-        Health = 10;
-        mana = 0;
-        armor = 0;
-        damage = 5;
-    }
+    public Weakest(string name, int health, int setMana, int setArmor, int setDamage)
+        : base(name, health, setMana, setArmor, setDamage) { }
 
     public override void Attack(Fighter enemy)
     {
