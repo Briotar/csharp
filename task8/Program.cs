@@ -15,29 +15,25 @@ namespace Task8_OOP
             Shooter shooter1 = new Shooter(110, 55, 86, "John1");
             Shooter shooter2 = new Shooter(115, 48, 90, "John2");
 
-            troopPakistan.AddToList(machineGunner);
-            troopPakistan.AddToList(shooter);
-            troopPakistan.AddToList(shooter1);
+            troopPakistan.AddSolder(machineGunner);
+            troopPakistan.AddSolder(shooter);
+            troopPakistan.AddSolder(shooter1);
 
-            troopIndia.AddToList(machineGunner1);
-            troopIndia.AddToList(shooter2);
+            troopIndia.AddSolder(machineGunner1);
+            troopIndia.AddSolder(shooter2);
 
-            Console.WriteLine("Pakistan troop:");
-            troopPakistan.ShowInfo();
-            Console.WriteLine("India troop:");
-            troopIndia.ShowInfo();
+            ShowInfoTroop(troopIndia, troopPakistan, false);
+            ShowInfoTroop(troopIndia, troopPakistan, true);
 
             while(troopIndia.Solders.Count > 0 && troopPakistan.Solders.Count > 0)
             {
                 Console.WriteLine("\nIndia attack!");
                 troopIndia.Attack(troopPakistan);
-                Console.WriteLine("Pakistan troop:");
-                troopPakistan.ShowInfo();
+                ShowInfoTroop(troopIndia, troopPakistan, false);
 
                 Console.WriteLine("\nPakistan attack!");
                 troopPakistan.Attack(troopIndia);
-                Console.WriteLine("India troop:");
-                troopIndia.ShowInfo();
+                ShowInfoTroop(troopIndia, troopPakistan, true);
 
                 Console.ReadKey();
             }
@@ -51,6 +47,20 @@ namespace Task8_OOP
                 Console.WriteLine("\nPakistan win!");
             }
         }
+
+        static void ShowInfoTroop(Troop troopIndia, Troop troopPakistan, bool isIndia = true)
+        {
+           if(isIndia)
+           {
+                Console.WriteLine("India troop:");
+                troopIndia.ShowInfo();
+           }
+           else
+           {
+                Console.WriteLine("Pakistan troop:");
+                troopPakistan.ShowInfo();
+           }
+        }
     }
 
     class Troop
@@ -62,18 +72,7 @@ namespace Task8_OOP
             Solders = new List<Solder>();
         }
 
-        private void CheckSolderHealth(Troop troopEnemy)
-        {
-            for (int i = 0; i < troopEnemy.Solders.Count; i++)
-            {
-                if(troopEnemy.Solders[i].Health <= 0)
-                {
-                    troopEnemy.Solders.RemoveAt(i);
-                }
-            }
-        }
-
-        public void AddToList(Solder solder)
+        public void AddSolder(Solder solder)
         {
             Solders.Add(solder);
         }
@@ -96,36 +95,47 @@ namespace Task8_OOP
 
             CheckSolderHealth(troopEnemy);
         }
+
+        private void CheckSolderHealth(Troop troopEnemy)
+        {
+            for (int i = 0; i < troopEnemy.Solders.Count; i++)
+            {
+                if(troopEnemy.Solders[i].Health <= 0)
+                {
+                    troopEnemy.Solders.RemoveAt(i);
+                }
+            }
+        }
     }
 
     abstract class Solder
     {
-        protected string name;
-        protected int damage;
-        protected int accuracy;
-        protected Random random;
+        protected string Name;
+        protected int Damage;
+        protected int Accuracy;
+        protected static Random Random;
 
         public int Health { get; protected set; }
 
         public Solder(int health, int setDamage, int setAccuracy, string setName)
         {
             Health = health;
-            name = setName;
-            damage = setDamage;
-            accuracy = setAccuracy;
-            random = new Random();
+            Name = setName;
+            Damage = setDamage;
+            Accuracy = setAccuracy;
+            Random = new Random();
         }
 
         public abstract void Attack(Troop troopEnemy);
 
         public void ShowInfo()
         {
-            Console.WriteLine($"Name - {name}, hp - {Health}, dmg - {damage}, accuracy - {accuracy}");
+            Console.WriteLine($"Name - {Name}, hp - {Health}, dmg - {Damage}, accuracy - {Accuracy}");
         }
 
         public void TakeDamage(int damage, int accuracy)
         {
-            int hitProbability = random.Next(1, 100);
+            int hitProbability = Random.Next(1, 100);
             if(hitProbability <= accuracy)
             {
                 Console.WriteLine("Hit!");
@@ -148,18 +158,18 @@ namespace Task8_OOP
             for (int i = 0; i < troopEnemy.Solders.Count; i++)
             {
                 Console.WriteLine("Machinegunner attack!");
-                DoubleAttack(troopEnemy, i);
-                troopEnemy.Solders[i].TakeDamage(damage, accuracy);
+                AttackAllEnemy(troopEnemy, i);
+                troopEnemy.Solders[i].TakeDamage(Damage, Accuracy);
             }
         }
 
-        private void DoubleAttack(Troop troopEnemy, int solderIndex)
+        private void AttackAllEnemy(Troop troopEnemy, int solderIndex)
         {
-            int shoot = random.Next(1, 3);
+            int shoot = Random.Next(1, 3);
 
             if(shoot == 1)
             {
-                troopEnemy.Solders[solderIndex].TakeDamage(damage, accuracy);
+                troopEnemy.Solders[solderIndex].TakeDamage(Damage, Accuracy);
             }
         }
     }
@@ -172,16 +182,16 @@ namespace Task8_OOP
         public override void Attack(Troop troopEnemy)
         {
             Console.WriteLine("Shooter attack!");
-            int targetAttack = random.Next(0, troopEnemy.Solders.Count);
-            AccurateShot(troopEnemy, targetAttack);
-            troopEnemy.Solders[targetAttack].TakeDamage(damage, accuracy);
+            int targetAttack = Random.Next(0, troopEnemy.Solders.Count);
+            ShotEnemy(troopEnemy, targetAttack);
+            troopEnemy.Solders[targetAttack].TakeDamage(Damage, Accuracy);
         }
 
-        private void AccurateShot(Troop troopEnemy, int solderIndex)
+        private void ShotEnemy(Troop troopEnemy, int solderIndex)
         {
-            int shoot = random.Next(1, 2);
+            int shoot = Random.Next(1, 2);
             int accurancy = 100;
-            int increasedDamage = damage + 15;
+            int increasedDamage = Damage + 15;
 
             if (shoot == 1)
             {
