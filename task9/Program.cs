@@ -15,6 +15,8 @@ namespace Task_9_OOP
             int numberMenu;
             int numberFishToAdd;
             int numberFishToDelete;
+            int minMenuNumber = 1;
+            int maxMenuNumber = 4;
 
             Console.Write("Enter max number of fish - ");
             int countFish = ConvertToInt();
@@ -29,29 +31,12 @@ namespace Task_9_OOP
                 aquarium.ShowInfo();
 
                 Console.WriteLine("\n1)Add new fish \n2)Delete fish \n3)Show info \n4)Exit");
-                numberMenu = GetNumberMenu();
+                numberMenu = GetNumberMenu(maxMenuNumber, minMenuNumber);
 
                 switch (numberMenu)
                 {
                     case 1:
-                        if(aquarium.Fishes.Count >= countFish)
-                        {
-                            Console.WriteLine("Too many fish!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Choose fish to add:");
-
-                            for (int i = 0; i < fishToAdd.Count; i++)
-                            {
-                                Console.Write((i + 1) + ")");
-                                fishToAdd[i].ShowInfo();
-                            }
-
-                            numberFishToAdd = ConvertToInt();
-                            AddFishAquarium(numberFishToAdd, aquarium);
-                        }
-
+                        AddFishAquarium(aquarium, countFish, fishToAdd);
                         aquarium.ShowInfo();
                         break;
 
@@ -81,6 +66,60 @@ namespace Task_9_OOP
                         break;
                 }
 
+                CheckFishALive(aquarium);
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+
+            static void AddFishAquarium(Aquarium aquarium, int countFish, List<Fish> fishToAdd)
+            {
+                int numberFishToAdd;
+
+                if (aquarium.Fishes.Count >= countFish)
+                {
+                    Console.WriteLine("Too many fish!");
+                }
+                else
+                {
+                    Console.WriteLine("Choose fish to add:");
+
+                    for (int i = 0; i < fishToAdd.Count; i++)
+                    {
+                        Console.Write((i + 1) + ")");
+                        fishToAdd[i].ShowInfo();
+                    }
+
+                    numberFishToAdd = ConvertToInt();
+
+                    switch (numberFishToAdd)
+                    {
+                        case 1:
+                            Fish carp = new Fish("carp", 7);
+                            aquarium.AddFish(carp);
+                            break;
+
+                        case 2:
+                            Fish pike = new Fish("pike", 9);
+                            aquarium.AddFish(pike);
+                            break;
+
+                        case 3:
+                            Fish zander = new Fish("zander", 5);
+                            aquarium.AddFish(zander);
+                            break;
+
+                        default:
+                            Console.WriteLine("Default choose - 1");
+                            Fish carp1 = new Fish("carp", 7);
+                            aquarium.AddFish(carp1);
+                            break;
+                    }
+                }
+            }
+
+            static void CheckFishALive(Aquarium aquarium)
+            {
                 for (int i = 0; i < aquarium.Fishes.Count; i++)
                 {
                     if (aquarium.Fishes[i].Age <= 0)
@@ -89,32 +128,8 @@ namespace Task_9_OOP
                     }
                     else
                     {
-                         aquarium.Fishes[i].TakeDamage();
+                        aquarium.Fishes[i].TakeDamage();
                     }
-                }
-
-                Console.ReadKey();
-                Console.Clear();
-            }
-
-            static void AddFishAquarium(int numberFish, Aquarium aquarium)
-            {
-                switch(numberFish)
-                {
-                    case 1:
-                        Fish carp = new Fish("carp", 7);
-                        aquarium.AddFish(carp);
-                        break;
-
-                    case 2:
-                        Fish pike = new Fish("pike", 9);
-                        aquarium.AddFish(pike);
-                        break;
-
-                    case 3:
-                        Fish zander = new Fish("zander", 5);
-                        aquarium.AddFish(zander);
-                        break;
                 }
             }
         }
@@ -139,13 +154,13 @@ namespace Task_9_OOP
             }
         }
 
-        static int GetNumberMenu(int defaultSelect = 3)
+        static int GetNumberMenu(int maxMenuNumber, int minMenuNumber,int defaultSelect = 3)
         {
             int numberMenu = ConvertToInt();
 
-            if(numberMenu < 1 || numberMenu > 4)
+            if(numberMenu < minMenuNumber || numberMenu > maxMenuNumber)
             {
-                Console.WriteLine($"Enter 1-4! Default select - {defaultSelect}");
+                Console.WriteLine($"Enter 1-{maxMenuNumber}! Default select - {defaultSelect}");
                 return defaultSelect;
             }
 
