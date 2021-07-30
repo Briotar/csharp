@@ -87,11 +87,15 @@ namespace Task_10_OOP
         public List<Animal> Animals { get; private set; }
         public string Name { get; private set; }
 
+        static Aviary()
+        {
+            _random = new Random();
+        }
+
         public Aviary(string name, string voice, int countAnimal)
         {
             Animals = new List<Animal>();
             Name = name;
-            _random = new Random();
 
             int sex = _random.Next(1, 3);
 
