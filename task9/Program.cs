@@ -7,10 +7,6 @@ namespace Task_9_OOP
     {
         static void Main(string[] args)
         {
-            Fish carp = new Fish("carp", 7);
-            Fish pike = new Fish("pike", 9);
-            Fish zander = new Fish("zander", 5);
-            List<Fish> fishToAdd = new List<Fish>();
             bool isWorking = true;
             int numberMenu;
             int numberFishToAdd;
@@ -22,10 +18,6 @@ namespace Task_9_OOP
             int countFish = ConvertToInt();
             Aquarium aquarium = new Aquarium(countFish);
 
-            fishToAdd.Add(carp);
-            fishToAdd.Add(pike);
-            fishToAdd.Add(zander);
-
             while (isWorking)
             {
                 aquarium.ShowInfo();
@@ -36,7 +28,7 @@ namespace Task_9_OOP
                 switch (numberMenu)
                 {
                     case 1:
-                        AddFishAquarium(aquarium, countFish, fishToAdd);
+                        aquarium.AddFish(countFish);
                         aquarium.ShowInfo();
                         break;
 
@@ -66,71 +58,10 @@ namespace Task_9_OOP
                         break;
                 }
 
-                CheckFishALive(aquarium);
+                aquarium.CheckFishALive();
 
                 Console.ReadKey();
                 Console.Clear();
-            }
-
-            static void AddFishAquarium(Aquarium aquarium, int countFish, List<Fish> fishToAdd)
-            {
-                int numberFishToAdd;
-
-                if (aquarium.Fishes.Count >= countFish)
-                {
-                    Console.WriteLine("Too many fish!");
-                }
-                else
-                {
-                    Console.WriteLine("Choose fish to add:");
-
-                    for (int i = 0; i < fishToAdd.Count; i++)
-                    {
-                        Console.Write((i + 1) + ")");
-                        fishToAdd[i].ShowInfo();
-                    }
-
-                    numberFishToAdd = ConvertToInt();
-
-                    switch (numberFishToAdd)
-                    {
-                        case 1:
-                            Fish carp = new Fish("carp", 7);
-                            aquarium.AddFish(carp);
-                            break;
-
-                        case 2:
-                            Fish pike = new Fish("pike", 9);
-                            aquarium.AddFish(pike);
-                            break;
-
-                        case 3:
-                            Fish zander = new Fish("zander", 5);
-                            aquarium.AddFish(zander);
-                            break;
-
-                        default:
-                            Console.WriteLine("Default choose - 1");
-                            Fish carp1 = new Fish("carp", 7);
-                            aquarium.AddFish(carp1);
-                            break;
-                    }
-                }
-            }
-
-            static void CheckFishALive(Aquarium aquarium)
-            {
-                for (int i = 0; i < aquarium.Fishes.Count; i++)
-                {
-                    if (aquarium.Fishes[i].Age <= 0)
-                    {
-                        aquarium.Fishes.RemoveAt(i);
-                    }
-                    else
-                    {
-                        aquarium.Fishes[i].TakeDamage();
-                    }
-                }
             }
         }
 
@@ -172,10 +103,20 @@ namespace Task_9_OOP
             private int _maxFishes;
 
             public List<Fish> Fishes { get; private set; }
+            public List<Fish> FishToAdd { get; private set; }
 
             public Aquarium(int fishes)
             {
+                Fish carp = new Carp("carp", 7);
+                Fish pike = new Pike("pike", 9);
+                Fish zander = new Zander("zander", 5);
                 Fishes = new List<Fish>();
+                FishToAdd = new List<Fish>();
+
+                FishToAdd.Add(carp);
+                FishToAdd.Add(pike);
+                FishToAdd.Add(zander);
+
                 _maxFishes = fishes;
             }
 
@@ -202,33 +143,112 @@ namespace Task_9_OOP
                 Fishes.RemoveAt(fishNumber);
             }
 
-            public void AddFish(Fish fish)
+            public void AddFish(int countFish)
             {
-                Fishes.Add(fish);
+                int numberFishToAdd;
+
+                if (Fishes.Count >= countFish)
+                {
+                    Console.WriteLine("Too many fish!");
+                }
+                else
+                {
+                    Console.WriteLine("Choose fish to add:");
+
+                    for (int i = 0; i < FishToAdd.Count; i++)
+                    {
+                        Console.Write((i + 1) + ")");
+                        FishToAdd[i].ShowInfo();
+                    }
+
+                    numberFishToAdd = ConvertToInt();
+
+                    switch (numberFishToAdd)
+                    {
+                        case 1:
+                            Fish carp = new Carp("carp", 7);
+                            Fishes.Add(carp);
+                            break;
+
+                        case 2:
+                            Fish pike = new Pike("pike", 9);
+                            Fishes.Add(pike);
+                            break;
+
+                        case 3:
+                            Fish zander = new Zander("zander", 5);
+                            Fishes.Add(zander);
+                            break;
+
+                        default:
+                            Console.WriteLine("Default choose - 1");
+                            Fish carp1 = new Carp("carp", 7);
+                            Fishes.Add(carp1);
+                            break;
+                    }
+                }
+            }
+
+            public void CheckFishALive()
+            {
+                for (int i = 0; i < Fishes.Count; i++)
+                {
+                    if (Fishes[i].IsAlive)
+                    {
+                        Fishes[i].TakeDamage();
+                    }
+                    else
+                    {
+                        Fishes.RemoveAt(i);
+                    }
+                }
             }
         }
 
-        class Fish
+        abstract class Fish
         {
+            public bool IsAlive { get; private set; }
+
             public string Name { get; private set; }
 
-            public int Age { get; private set; }
+            public int TurnsToDie { get; private set; }
 
             public Fish(string name, int age)
             {
                 Name = name;
-                Age = age;
+                TurnsToDie = age;
+                IsAlive = true;
             }
 
             public void TakeDamage()
             {
-                Age--;
+                TurnsToDie--;
+
+                if(TurnsToDie <= 0)
+                {
+                    IsAlive = false;
+                }
             }
 
             public void ShowInfo()
             {
-                Console.WriteLine($"Name  - {Name}, age - {Age}");
+                Console.WriteLine($"Name  - {Name}, turns to die - {TurnsToDie}");
             }
+        }
+
+        class Carp : Fish
+        {
+            public Carp(string name, int age) : base(name, age) { }
+        }
+
+        class Pike : Fish
+        {
+            public Pike(string name, int age) : base(name, age) { }
+        }
+
+        class Zander : Fish
+        {
+            public Zander(string name, int age) : base(name, age) { }
         }
     }
 }
