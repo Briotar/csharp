@@ -91,7 +91,7 @@ namespace Task_11
         {
             int detailIndex = 0;
             bool isHaveDetail = false;
-            Client client = new Client();
+            Client client = new Client(AllDetails);
             client.ShowInfo();
 
             for (int i = 0; i < Details.Count; i++)
@@ -204,24 +204,13 @@ namespace Task_11
 
         public Detail Breakdown { get; private set; }
 
-        public List<Detail> AllDetails { get; private set; }
-
         static Client()
         {
             _random = new Random();
         }
 
-        public Client()
+        public Client(List<Detail> AllDetails)
         {
-            AllDetails = new List<Detail>();
-            Detail bolt = new Bolt("bolt", 100, 1);
-            Detail screw = new Screw("screw", 200, 1);
-            Detail shaft = new Shaft("shaft", 1000, 1);
-
-            AllDetails.Add(bolt);
-            AllDetails.Add(screw);
-            AllDetails.Add(shaft);
-
             int randomBreakdown = _random.Next(0, AllDetails.Count);
 
             Breakdown = new Bolt(AllDetails[randomBreakdown].Name, AllDetails[randomBreakdown].Cost, 1);
