@@ -9,18 +9,9 @@ namespace Task_11
         {
             List<Detail> allDetails = new List<Detail>();
             Service service = new Service(10000);
-            Detail detailBolt = new Detail("bolt", 100, 1);
-            Detail detailVint = new Detail("vint", 200, 1);
-            Detail detailVal = new Detail("val", 1000, 1);
             bool isWorking = true;
-            bool isHaveDetail = false;
             int numberMenu;
             int maxNumberMenu = 2;
-            int detailIndex = 0;
-
-            allDetails.Add(detailBolt);
-            allDetails.Add(detailVint);
-            allDetails.Add(detailVal);
 
             while (isWorking)
             {
@@ -33,50 +24,7 @@ namespace Task_11
                 }
                 else
                 {
-                    Client client = new Client(allDetails);
-                    client.ShowInfo();
-
-                    for (int i = 0; i < service.Details.Count; i++)
-                    {
-                        if(service.Details[i].Name == client.Breakdown.Name)
-                        {
-                            detailIndex = i;
-                            isHaveDetail = true;
-                            Console.WriteLine("We have:");
-                            service.Details[i].ShowInfo();
-                        }
-                    }
-
-                    if(isHaveDetail)
-                    {
-                        Console.WriteLine("Replaced detail");
-
-                        int serviceCost = service.CostCalculation(client.Breakdown);
-                        Console.WriteLine($"Service cost - {serviceCost}");
-
-                        service.GetMoney(client.Breakdown);
-                        service.Details[detailIndex].DecreaseCountDetail();
-                        service.Details[detailIndex].ShowInfo();
-                    }
-                    else
-                    {
-                        Console.WriteLine("We dont have such detail(");
-
-                        int fineCost = service.FineCalculation(client.Breakdown);
-                        Console.WriteLine($"Fine cost - {fineCost}");
-
-                        service.PayMoney(client.Breakdown);
-                    }
-
-                    for (int i = 0; i < service.Details.Count; i++)
-                    {
-                        if(service.Details[i].Count == 0)
-                        {
-                            service.Details.RemoveAt(i);
-                        }    
-                    }
-
-                    isHaveDetail = false;
+                    service.ClientService();
                 }
 
                 Console.ReadKey();
@@ -118,23 +66,80 @@ namespace Task_11
 
         public List<Detail> Details { get; private set; }
 
+        public List<Detail> AllDetails { get; private set; } 
+
         public Service(int money)
         {
             Details = new List<Detail>();
+            AllDetails = new List<Detail>();
             _money = money;
 
-            Detail detailBolt = new Detail("bolt", 100, 1);
-            Detail detailVint = new Detail("vint", 200, 2);
-            Detail detailVal = new Detail("val", 1000, 2);
+            Detail bolt = new Bolt("bolt", 100, 1);
+            Detail screw = new Screw("screw", 200, 2);
+            Detail shaft = new Shaft("shaft", 1000, 2);
 
-            Details.Add(detailBolt);
-            Details.Add(detailVint);
-            Details.Add(detailVal);
+            Details.Add(bolt);
+            Details.Add(screw);
+            Details.Add(shaft);
+
+            AllDetails.Add(bolt);
+            AllDetails.Add(screw);
+            AllDetails.Add(shaft);
+        }
+
+        public void ClientService()
+        {
+            int detailIndex = 0;
+            bool isHaveDetail = false;
+            Client client = new Client();
+            client.ShowInfo();
+
+            for (int i = 0; i < Details.Count; i++)
+            {
+                if (Details[i].Name == client.Breakdown.Name)
+                {
+                    detailIndex = i;
+                    isHaveDetail = true;
+                    Console.WriteLine("We have:");
+                    Details[i].ShowInfo();
+                }
+            }
+
+            if (isHaveDetail)
+            {
+                Console.WriteLine("Replaced detail");
+
+                int serviceCost = CostCalculation(client.Breakdown);
+                Console.WriteLine($"Service cost - {serviceCost}");
+
+                GetMoney(client.Breakdown);
+                Details[detailIndex].DecreaseCountDetail();
+                Details[detailIndex].ShowInfo();
+            }
+            else
+            {
+                Console.WriteLine("We dont have such detail(");
+
+                int fineCost = CostCalculation(client.Breakdown);
+                Console.WriteLine($"Fine cost - {fineCost}");
+
+                PayMoney(client.Breakdown);
+            }
+
+            for (int i = 0; i < Details.Count; i++)
+            {
+                if (Details[i].Count == 0)
+                {
+                    Details.RemoveAt(i);
+                }
+            }
+
+            isHaveDetail = false;
         }
 
         public void PayMoney(Detail breakdown)
         {
-            int moneyForPay = FineCalculation(breakdown);
+            int moneyForPay = CostCalculation(breakdown);
 
             _money -= moneyForPay;
             Console.WriteLine($"Money now - {_money}");
@@ -148,18 +153,13 @@ namespace Task_11
             Console.WriteLine($"Money now - {_money}");
         }
 
-        public int FineCalculation(Detail detail)
-        {
-            return (detail.Cost * 2);
-        }
-
         public int CostCalculation(Detail detail)
         {
             return (detail.Cost * 2);
         }
     }
 
-    class Detail
+    abstract class Detail
     {
         public string Name { get; private set; }
         public int Cost { get; private set; }
@@ -183,18 +183,48 @@ namespace Task_11
         }
     }
 
+    class Screw : Detail
+    {
+        public Screw(string name, int cost, int count) : base(name, cost, count) { }
+    }
+
+    class Bolt : Detail
+    {
+        public Bolt(string name, int cost, int count) : base(name, cost, count) { }
+    }
+
+    class Shaft : Detail
+    {
+        public Shaft(string name, int cost, int count) : base(name, cost, count) { }
+    }
+
     class Client
     {
         private static Random _random;
 
         public Detail Breakdown { get; private set; }
 
-        public Client(List<Detail> details)
+        public List<Detail> AllDetails { get; private set; }
+
+        static Client()
         {
             _random = new Random();
-            int randomBreakdown = _random.Next(0, details.Count);
+        }
 
-            Breakdown = new Detail(details[randomBreakdown].Name, details[randomBreakdown].Cost, 1);
+        public Client()
+        {
+            AllDetails = new List<Detail>();
+            Detail bolt = new Bolt("bolt", 100, 1);
+            Detail screw = new Screw("screw", 200, 1);
+            Detail shaft = new Shaft("shaft", 1000, 1);
+
+            AllDetails.Add(bolt);
+            AllDetails.Add(screw);
+            AllDetails.Add(shaft);
+
+            int randomBreakdown = _random.Next(0, AllDetails.Count);
+
+            Breakdown = new Bolt(AllDetails[randomBreakdown].Name, AllDetails[randomBreakdown].Cost, 1);
         }
 
         public void ShowInfo()
