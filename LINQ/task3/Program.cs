@@ -18,7 +18,9 @@ namespace Task3
                 new Patient("Sanya", 18, "alzheimer"),
                 new Patient("Andrew", 21, "migraine"),
                 new Patient("Nikita", 57, "autism"),
-                new Patient("Roma", 43, "asthma"),
+                new Patient("Mihail", 60, "blindness"),
+                new Patient("Kirill", 38, "asthma"),
+                new Patient("Vladimir", 22, "alzheimer")
             };
             bool isMenu = true;
             int indexMenu;
