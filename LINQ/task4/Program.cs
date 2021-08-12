@@ -23,27 +23,23 @@ namespace Task4
                 new Player("Zin", 45, 769)
             };
             int maxTopPlayers = 3;
-            int i = 1;
 
-            var topLevelPlayers = players.OrderByDescending(player => player.Level).Take(maxTopPlayers);
+            var topLevelPlayers = players.OrderByDescending(player => player.Level).Take(maxTopPlayers).ToList();
 
             Console.WriteLine("Top level players:");
-            foreach (var player in topLevelPlayers)
+            for (int i = 0; i < maxTopPlayers; i ++)
             {
-                Console.Write(i + ")");
-                player.ShowInfo();
-                i++;
+                Console.Write((i + 1) + ")");
+                topLevelPlayers[i].ShowInfo();
             }
-            i = 1;
 
-            var topPowerPlayers = players.OrderByDescending(player => player.Power).Take(maxTopPlayers);
+            var topPowerPlayers = players.OrderByDescending(player => player.Power).Take(maxTopPlayers).ToList();
 
             Console.WriteLine("Top power players:");
-            foreach (var player in topPowerPlayers)
+            for (int i = 0; i < maxTopPlayers; i++)
             {
-                Console.Write(i + ")");
-                player.ShowInfo();
-                i++;
+                Console.Write((i + 1) + ")");
+                topPowerPlayers[i].ShowInfo();
             }
         }
     }
