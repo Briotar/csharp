@@ -23,27 +23,27 @@ namespace Task3
                 new Patient("Vladimir", 22, "alzheimer")
             };
             bool isMenu = true;
-            int indexMenu;
+            string indexMenu;
             string inputDisease;
 
             while (isMenu)
             {
                 Console.WriteLine("1)Sort by name \n2)Sort by age \n3)Search disease \n4)Exit");
-                indexMenu = GetNumberMenu();
+                indexMenu = Console.ReadLine();
 
                 switch(indexMenu)
                 {
-                    case 1:
+                    case "1":
                         var filtredPatientsName = patients.OrderBy(patient => patient.Name);
                         ShowInfo(filtredPatientsName);
                         break;
 
-                    case 2:
+                    case "2":
                         var filtredPatientsAge = patients.OrderBy(patient => patient.Age);
                         ShowInfo(filtredPatientsAge);
                         break;
 
-                    case 3:
+                    case "3":
                         Console.Write("Enter disease - ");
                         inputDisease = Console.ReadLine();
 
@@ -51,8 +51,12 @@ namespace Task3
                         ShowInfo(filtredPatientsDisease);
                         break;
 
-                    case 4:
+                    case "4":
                         isMenu = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Enter a number 1-4!");
                         break;
                 }
 
@@ -73,34 +77,6 @@ namespace Task3
             foreach (var patient in filtredPatients)
             {
                 patient.ShowInfo();
-            }
-        }
-
-        static int GetNumberMenu(int maxNumberMenu = 4)
-        {
-            string numberMenu;
-            int numberMenuInt;
-            bool successfulConvert;
-
-            numberMenu = Console.ReadLine();
-            successfulConvert = Int32.TryParse(numberMenu, out numberMenuInt);
-
-            if (successfulConvert)
-            {
-                if (numberMenuInt < 1 || numberMenuInt > maxNumberMenu)
-                {
-                    Console.WriteLine($"Enter a number 1-{maxNumberMenu}! Default number - 1");
-                    return 1;
-                }
-                else
-                {
-                    return numberMenuInt;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Enter a number! Default number - 1");
-                return 1;
             }
         }
     }
