@@ -12,21 +12,21 @@ namespace Task7
             {
                 new Solder("Vova", "sergeant", "gun", 12),
                 new Solder("Vlad", "sergeant", "machinegun", 13),
-                new Solder("Ivan", "lieutenant", "rifle", 14),
+                new Solder("Boris", "lieutenant", "rifle", 14),
                 new Solder("Mike", "sergeant", "gun", 15),
                 new Solder("Nikita", "lieutenant", "machinegun", 16),
                 new Solder("Danya", "major", "rifle", 17),
             };
             List<Solder> solders2 = new List<Solder>
             {
-                new Solder("Vladimir", "major", "gun", 20)
+                new Solder("Bivor", "major", "gun", 20)
             };
 
-            var soldersNameV = solders.Where(solder => solder.Name.StartsWith("V")).ToList();
+            var soldersNameB = solders.Where(solder => solder.Name.StartsWith("B")).ToList();
 
-            for (int i = 0; i < soldersNameV.Count; i++)
+            for (int i = 0; i < soldersNameB.Count; i++)
             {
-                solders2.Add(soldersNameV[i]);
+                solders2.Add(soldersNameB[i]);
             }
 
             for (int i = 0; i < solders2.Count; i++)
