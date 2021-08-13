@@ -10,27 +10,26 @@ namespace Task_11
             Service service = new Service(10000);
             bool isWorking = true;
             string numberMenu;
-            string maxNumberMenu = "2";
 
             while (isWorking)
             {
                 Console.WriteLine("1)New client \n2)Exit");
                 numberMenu = Console.ReadLine();
 
-                if(numberMenu == maxNumberMenu)
+                switch(numberMenu)
                 {
-                    isWorking = false;
-                }
-                else if(numberMenu == "1") 
-                {
-                    service.Repair();
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect input!");
-                }
+                    case "1":
+                        service.Repair();
+                        break;
 
-                Console.ReadKey();
+                    case "2":
+                        isWorking = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Incorrect input!");
+                        break;
+                }
             }
         }
     }
