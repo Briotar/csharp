@@ -7,62 +7,30 @@ namespace Task_11
     {
         static void Main(string[] args)
         {
-            List<Detail> allDetails = new List<Detail>();
-            Detail bolt = new Bolt("bolt", 100, 1);
-            Detail screw = new Screw("screw", 200, 1);
-            Detail shaft = new Shaft("shaft", 1000, 1);
             Service service = new Service(10000);
             bool isWorking = true;
-            int numberMenu;
-            int maxNumberMenu = 2;
-
-            allDetails.Add(bolt);
-            allDetails.Add(screw);
-            allDetails.Add(shaft);
+            string numberMenu;
+            string maxNumberMenu = "2";
 
             while (isWorking)
             {
                 Console.WriteLine("1)New client \n2)Exit");
-                numberMenu = GetNumberMenu(maxNumberMenu);
+                numberMenu = Console.ReadLine();
 
                 if(numberMenu == maxNumberMenu)
                 {
                     isWorking = false;
                 }
+                else if(numberMenu == "1") 
+                {
+                    service.Repair();
+                }
                 else
                 {
-                    service.Repair(allDetails);
+                    Console.WriteLine("Incorrect input!");
                 }
 
                 Console.ReadKey();
-            }
-        }
-
-        static int GetNumberMenu(int maxNumberMenu = 2)
-        {
-            string numberMenu;
-            int convertedNumberMenu;
-            bool successfulConvert;
-
-            numberMenu = Console.ReadLine();
-            successfulConvert = Int32.TryParse(numberMenu, out convertedNumberMenu);
-
-            if (successfulConvert)
-            {
-                if (convertedNumberMenu < 1 || convertedNumberMenu > maxNumberMenu)
-                {
-                    Console.WriteLine($"Enter a number 1-{maxNumberMenu}! Default number - 1");
-                    return 1;
-                }
-                else
-                {
-                    return convertedNumberMenu;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Enter a number! Default number - 1");
-                return 1;
             }
         }
     }
@@ -70,38 +38,38 @@ namespace Task_11
     class Service
     {
         private int _money;
-
-        public List<Detail> Details { get; private set; }
+        private List<Detail> _details;
 
         public Service(int money)
         {
-            Details = new List<Detail>();
+            _details = new List<Detail>();
             _money = money;
 
-            Detail bolt = new Bolt("bolt", 100, 1);
-            Detail screw = new Screw("screw", 200, 2);
-            Detail shaft = new Shaft("shaft", 1000, 2);
+            Detail bolt = new Bolt("bolt", 100);
+            Detail screw = new Screw("screw", 200);
+            Detail shaft = new Shaft("shaft", 1000);
 
-            Details.Add(bolt);
-            Details.Add(screw);
-            Details.Add(shaft);
+            _details.Add(bolt);
+            _details.Add(bolt);
+            _details.Add(screw);
+            _details.Add(shaft);
         }
 
-        public void Repair(List<Detail> allDetails)
+        public void Repair()
         {
             int detailIndex = 0;
             bool isHaveDetail = false;
-            Client client = new Client(allDetails);
+            Client client = new Client();
             client.ShowInfo();
 
-            for (int i = 0; i < Details.Count; i++)
+            for (int i = 0; i < _details.Count; i++)
             {
-                if (Details[i].Name == client.Breakdown.Name)
+                if (_details[i].Name == client.Breakdown.Name)
                 {
                     detailIndex = i;
                     isHaveDetail = true;
                     Console.WriteLine("We have:");
-                    Details[i].ShowInfo();
+                    _details[i].ShowInfo();
                 }
             }
 
@@ -113,8 +81,7 @@ namespace Task_11
                 Console.WriteLine($"Service cost - {serviceCost}");
 
                 Payment(client.Breakdown);
-                Details[detailIndex].ReduceCountDetail();
-                Details[detailIndex].ShowInfo();
+                _details.RemoveAt(detailIndex);
             }
             else
             {
@@ -124,14 +91,6 @@ namespace Task_11
                 Console.WriteLine($"Fine cost - {fineCost}");
 
                 PayMoney(client.Breakdown);
-            }
-
-            for (int i = 0; i < Details.Count; i++)
-            {
-                if (Details[i].Count == 0)
-                {
-                    Details.RemoveAt(i);
-                }
             }
 
             isHaveDetail = false;
@@ -163,39 +122,32 @@ namespace Task_11
     {
         public string Name { get; private set; }
         public int Cost { get; private set; }
-        public int Count { get; private set; }
 
-        public Detail(string name, int cost, int count)
+        public Detail(string name, int cost)
         {
             Name = name;
             Cost = cost;
-            Count = count;
         }
 
         public void ShowInfo()
         {
-            Console.WriteLine($"Detail - {Name}, cost - {Cost}, count - {Count}");
-        }
-
-        public void ReduceCountDetail()
-        {
-            Count -= 1;
+            Console.WriteLine($"Detail - {Name}, cost - {Cost}");
         }
     }
 
     class Screw : Detail
     {
-        public Screw(string name, int cost, int count) : base(name, cost, count) { }
+        public Screw(string name, int cost) : base(name, cost) { }
     }
 
     class Bolt : Detail
     {
-        public Bolt(string name, int cost, int count) : base(name, cost, count) { }
+        public Bolt(string name, int cost) : base(name, cost) { }
     }
 
     class Shaft : Detail
     {
-        public Shaft(string name, int cost, int count) : base(name, cost, count) { }
+        public Shaft(string name, int cost) : base(name, cost) { }
     }
 
     class Client
@@ -209,11 +161,21 @@ namespace Task_11
             _random = new Random();
         }
 
-        public Client(List<Detail> allDetails)
+        public Client()
         {
+            List<Detail> allDetails = new List<Detail>();
+
+            Detail bolt = new Bolt("bolt", 100);
+            Detail screw = new Screw("screw", 200);
+            Detail shaft = new Shaft("shaft", 1000);
+
+            allDetails.Add(bolt);
+            allDetails.Add(screw);
+            allDetails.Add(shaft);
+
             int randomBreakdown = _random.Next(0, allDetails.Count);
 
-            Breakdown = new Bolt(allDetails[randomBreakdown].Name, allDetails[randomBreakdown].Cost, 1);
+            Breakdown = new Bolt(allDetails[randomBreakdown].Name, allDetails[randomBreakdown].Cost);
         }
 
         public void ShowInfo()
